@@ -24,7 +24,7 @@ model User {
   onBoardingCompleted Boolean    @default(false)
   Company             Company?
   Candidate           Candidate?
-  userType            UserType
+  userType            UserType?
   createdAt           DateTime   @default(now())
   updatedAt           DateTime   @updatedAt
 }

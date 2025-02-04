@@ -1,5 +1,6 @@
 "use client";
 
+import CandidateForm from "@/components/forms/onboarding/CandidateForm";
 import CompanyForm from "@/components/forms/onboarding/CompanyForm";
 import UserTypeSelection from "@/components/forms/onboarding/UserTypeForm";
 import { Card, CardContent } from "@/components/ui/card";
@@ -22,11 +23,7 @@ const OnboardingForm = () => {
       case 1:
         return <UserTypeSelection onSelect={handleUserSelection} />;
       case 2:
-        return userType === "company" ? (
-          <CompanyForm />
-        ) : (
-          <p>Job Seeker Form</p>
-        );
+        return userType === "company" ? <CompanyForm /> : <CandidateForm />;
       default:
         return null;
     }

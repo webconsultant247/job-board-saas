@@ -14,15 +14,50 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id                  String     @id @default(cuid())
+  name                String?
+  email               String     @unique
+  emailVerified       DateTime?
+  image               String?
+  accounts            Account[]
+  sessions            Session[]
+  onBoardingCompleted Boolean    @default(false)
+  Company             Company?
+  Candidate           Candidate?
+  userType            UserType
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
+}
+
+enum UserType {
+  COMPANY
+  CANDIDATE
+}
+
+model Company {
+  id        String   @id @default(cuid())
+  name      String
+  location  String
+  about     String
+  logo      String
+  website   String
+  xAccount  String?
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Candidate {
+  id     String @id @default(cuid())
+  name   String
+  about  String
+  resume String
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Account {

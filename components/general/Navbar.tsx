@@ -1,9 +1,12 @@
+import { auth, signOut } from "@/auth";
 import ThemeToggle from "@/components/general/ThemeToggle";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const session = await auth();
+
   return (
     <nav className="flex items-center justify-between py-5">
       <Link href="/" className="flex gap-2 items-center">
@@ -15,7 +18,23 @@ const Navbar = () => {
       </Link>
       <div className="flex items-center gap-4">
         <ThemeToggle />
-        <Button>Login</Button>
+        {session?.user ? (
+          <form
+            action={async () => {
+              "use server";
+              await signOut({ redirectTo: "/" });
+            }}
+          >
+            <Button>Log Out</Button>
+          </form>
+        ) : (
+          <Link
+            href="/login"
+            className={buttonVariants({ variant: "default" })}
+          >
+            Log In
+          </Link>
+        )}
       </div>
     </nav>
   );

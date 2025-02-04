@@ -1,4 +1,5 @@
-import { Button } from "@/components/ui/button";
+import { auth, signIn } from "@/auth";
+import GeneralSubmitButton from "@/components/general/SubmitButtons";
 import {
   Card,
   CardContent,
@@ -6,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { redirect } from "next/navigation";
 import React, { SVGProps } from "react";
 const Github = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -48,7 +50,11 @@ const Google = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const LoginForm = () => {
+const LoginForm = async () => {
+  const session = await auth();
+  if (session?.user) {
+    redirect("/");
+  }
   return (
     <div className="flex flex-col gap-6">
       <Card className="text-center">
@@ -60,16 +66,27 @@ const LoginForm = () => {
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-4">
-            <form>
-              <Button variant={"outline"} className="w-full">
-                <Github className="size-4" /> Login With Github
-              </Button>
+            <form
+              action={async () => {
+                "use server";
+                await signIn("github"),
+                  {
+                    redirectTo: "/",
+                  };
+              }}
+            >
+              <GeneralSubmitButton
+                variant={"outline"}
+                text="Login with Github"
+                icon={<Github className="size-4" />}
+              />
             </form>
             <form>
-              <Button className="w-full" variant={"outline"}>
-                <Google className="size-4" /> Login With Github Login With
-                Google
-              </Button>
+              <GeneralSubmitButton
+                variant={"outline"}
+                text="Login with Google"
+                icon={<Google className="size-4" />}
+              />
             </form>
           </div>
         </CardContent>

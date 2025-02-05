@@ -80,7 +80,6 @@ const CompanyForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Company Location</FormLabel>
-                {/* <Input placeholder="Enter company location" {...field} /> */}
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
@@ -95,7 +94,7 @@ const CompanyForm = () => {
                       <SelectLabel>Worldwide</SelectLabel>
                       <SelectItem value="worldwide">
                         <span>🌍</span>
-                        <span>Worldwide / Remote</span>
+                        <span className="pl-1">Worldwide / Remote</span>
                       </SelectItem>
                     </SelectGroup>
                     <SelectGroup>

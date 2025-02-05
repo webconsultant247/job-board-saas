@@ -44,8 +44,32 @@ model Company {
   xAccount  String?
   userId    String   @unique
   user      User     @relation(fields: [userId], references: [id])
+  jobs      Job[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Job {
+  id              String    @id @default(cuid())
+  companyId       String
+  company         Company   @relation(fields: [companyId], references: [id])
+  title           String
+  employmentType  String
+  location        String
+  salaryFrom      Int
+  salaryTo        Int
+  description     String
+  listingDuration Int
+  benefits        String[]
+  status          JobStatus @default(DRAFT)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+enum JobStatus {
+  DRAFT
+  ACTIVE
+  EXPIRED
 }
 
 model Candidate {

@@ -1,5 +1,6 @@
 import { auth, signOut } from "@/auth";
 import ThemeToggle from "@/components/general/ThemeToggle";
+import UserDropdown from "@/components/general/UserDropdown";
 import { Button, buttonVariants } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,23 +17,22 @@ const Navbar = async () => {
           <span className="text-primary">Board</span>
         </h1>
       </Link>
-      <div className="flex items-center gap-4">
+
+      {/* Desktop Navigation */}
+      <div className="hidden md:flex items-center gap-5">
         <ThemeToggle />
+        <Link className={buttonVariants()} href="/post-job">
+          Post Job
+        </Link>
         {session?.user ? (
-          <form
-            action={async () => {
-              "use server";
-              await signOut({ redirectTo: "/" });
-            }}
-          >
-            <Button>Log Out</Button>
-          </form>
+          <UserDropdown
+            name={session.user.name as string}
+            image={session.user.image as string}
+            email={session.user.email as string}
+          />
         ) : (
-          <Link
-            href="/login"
-            className={buttonVariants({ variant: "default" })}
-          >
-            Log In
+          <Link className={buttonVariants()} href="/login">
+            Login
           </Link>
         )}
       </div>
